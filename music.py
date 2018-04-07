@@ -18,12 +18,8 @@ def play(func, duration=10, fs=8000, type_=np.uint8):
 def music1(t):
     return (t>>6^t>>8|t>>11|t&63) , 8000
 
-music_kox_x = 1
-music_kox_y = 1
-def music_kox(t):  #32kHz
-    global music_kox_x
-    global music_kox_y
 
+def music_kox(t):  #32kHz
     music_kox_y = int(t&16383 if t&16383 != 0 else 1)
     music_kox_x = int(t * (ord("6689"[t>>16&3])&15) / (24&127)  * music_kox_y / 4e4)
     return (((int)(3e3/(music_kox_y))&1)*35) + music_kox_x +((t>>8^t>>10|t>>14|music_kox_x)&63), 32000
@@ -55,7 +51,7 @@ def music2(t):
 
 
 
-foo = music2
+foo = music_kox
 
 play(
     foo
